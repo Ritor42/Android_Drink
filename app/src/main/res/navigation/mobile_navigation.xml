@@ -22,10 +22,4 @@
         android:name="com.example.drink.ui.ProfileFragment"
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
-
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.drink.ui.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
 </navigation>
