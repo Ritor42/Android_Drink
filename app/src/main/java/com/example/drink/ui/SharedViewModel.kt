@@ -128,11 +128,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private fun getDailyGoalAmount(profile : Profile) : Int {
         val weightDivider = 2.2f
         val ageMultiplier = if (profile.age < 30) 40 else if(profile.age <= 55) 35 else 30
-
+        val goal = profile.getPoundWeight() / weightDivider * ageMultiplier / 28.3f
         return if (profile.isUnitInKg()) {
-            (profile.weight / weightDivider * ageMultiplier / 28.3f / 0.0338f).roundToInt()
+            (goal / 33.8f * 1000).toInt()
         } else {
-            (profile.weight / weightDivider * ageMultiplier / 28.3f).roundToInt()
+            goal.toInt()
         }
     }
 }
