@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 import kotlin.math.roundToInt
 
 @Parcelize
@@ -23,12 +22,12 @@ data class Drink(
     @ColumnInfo(name = "profile_id") val profileId: Int,
     @ColumnInfo(name = "amount") val amount: Int,
     @ColumnInfo(name = "datetime") val date: Long
-) : Parcelable{
-    fun getMlAmount() : Int {
+) : Parcelable {
+    fun getMlAmount(): Int {
         return this.amount
     }
 
-    fun getOzAmount() : Int {
+    fun getOzAmount(): Int {
         return (this.amount / 29.5735296f).roundToInt()
     }
 
