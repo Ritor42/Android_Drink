@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExportActivity">
+
+    <TextView
+        android:id="@+id/text_export"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fragment_margin"
+        android:layout_marginTop="@dimen/fragment_margin"
+        android:layout_marginEnd="@dimen/fragment_margin"
+        android:gravity="center_horizontal"
+        android:text="@string/text_export"
+        android:textAlignment="center"
+        android:textSize="@dimen/big_text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_margin"
+        android:gravity="center_horizontal"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:text="@string/text_export"
+        android:textAlignment="center"
+        android:textSize="@dimen/small_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_export" />
+
+    <Button
+        android:id="@+id/clipboard_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/button_margin"
+        android:background="@color/colorPrimary"
+        android:text="@string/clipboard_button"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="@dimen/small_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="PrivateResource" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,16 @@
     <string name="empty_not_saved">Drink can not be saved, please try again!</string>
     <string name="how_much_did_you_drink">How much did you drink?</string>
     <string name="statistics">Statistics</string>
+    <string name="button_export">Export</string>
+    <string name="text_export">Export</string>
+    <string name="default_daily_amount">123 oz</string>
+    <string name="default_daily_goal_amount">666 oz</string>
+    <string name="default_daily_left_amount">543 oz left</string>
+    <string name="hint_age">Age</string>
+    <string name="hint_weight">Weight</string>
+    <string name="default_date">20:23</string>
+    <string name="default_amount">27 oz</string>
+    <string name="clipboard_button">Save to clipboard!</string>
     <string-array name="Units">
         <item>KG, ML</item>
         <item>Pound, OZ</item>

@@ -11,7 +11,7 @@ import com.example.drink.data.model.Drink
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DrinkListAdapter  internal constructor(context: Context) :
+class DrinkListAdapter internal constructor(context: Context) :
     RecyclerView.Adapter<DrinkListAdapter.EventViewHolder>() {
     private val formatter = SimpleDateFormat("HH:mm")
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -35,7 +35,9 @@ class DrinkListAdapter  internal constructor(context: Context) :
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val current = drinks[position]
         holder.dateTextView.text = formatter.format(Date(current.date))
-        holder.amountTextView.text = if (isUnitMl) current.getMlAmount().toString() + " ml" else current.getOzAmount().toString() + " oz"
+        holder.amountTextView.text =
+            if (isUnitMl) current.getMlAmount().toString() + " ml" else current.getOzAmount()
+                .toString() + " oz"
 
         if (selecteds.contains(current)) {
             holder.itemView.setBackgroundResource(R.drawable.recyclerview_item_shape_selected)

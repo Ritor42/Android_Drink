@@ -72,10 +72,15 @@ class HomeFragment : Fragment() {
                         drinks?.let {
                             val profile = profiles.first()
                             this.text_dailyAmount.text = viewModel.getDailyAmountText(profile)
-                            this.text_dailyGoalAmount.text = viewModel.getDailyGoalAmountText(profile)
-                            this.text_dailyLeftAmount.text = viewModel.getDailyLeftAmountText(profile)
+                            this.text_dailyGoalAmount.text =
+                                viewModel.getDailyGoalAmountText(profile)
+                            this.text_dailyLeftAmount.text =
+                                viewModel.getDailyLeftAmountText(profile)
                             this.circular_progressbar.progress = viewModel.getProgress(profile)
-                            adapter.setDrinks(viewModel.getTodayDrinks(drinks), profile.isUnitInKg())
+                            adapter.setDrinks(
+                                viewModel.getTodayDrinks(drinks),
+                                profile.isUnitInKg()
+                            )
                         }
                     }
                 })
@@ -92,7 +97,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun HandleDrinkPrompt(drink : Drink?) {
+    private fun HandleDrinkPrompt(drink: Drink?) {
         val li = LayoutInflater.from(context)
         val promptsView: View = li.inflate(R.layout.drink_prompt, null)
         val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
@@ -101,11 +106,12 @@ class HomeFragment : Fragment() {
         val userInput = promptsView.findViewById<View>(R.id.drink_prompt_input) as EditText
         alertDialogBuilder
             .setCancelable(false)
-            .setPositiveButton("OK"
+            .setPositiveButton(
+                "OK"
             ) { _, _ ->
                 viewModel.profiles.observeOnce(Observer { profiles ->
                     val input = userInput.text.toString()
-                    if(input.isNotEmpty() && input.toIntOrNull() != null) {
+                    if (input.isNotEmpty() && input.toIntOrNull() != null) {
                         val profile = profiles.first()
                         val storeAmount =
                             viewModel.getStoreAmount(profile, userInput.text.toString().toInt())
@@ -117,7 +123,8 @@ class HomeFragment : Fragment() {
                     }
                 })
             }
-            .setNegativeButton("Cancel"
+            .setNegativeButton(
+                "Cancel"
             ) { dialog, _ -> dialog.cancel() }
 
         val alertDialog: AlertDialog = alertDialogBuilder.create()

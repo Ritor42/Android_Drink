@@ -1,5 +1,6 @@
 package com.example.drink.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.drink.ExportActivity
 import com.example.drink.R
 import com.example.drink.data.model.Profile
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -37,13 +39,15 @@ class ProfileFragment : Fragment() {
             this.spinner_unit_input.adapter = adapter
 
             viewModel = ViewModelProvider(it).get(SharedViewModel::class.java)
-            viewModel.profiles.observe( this, Observer {  profiles ->
+            viewModel.profiles.observe(this, Observer { profiles ->
                 profiles?.let {
-                    if(profiles.isNotEmpty()) {
+                    if (profiles.isNotEmpty()) {
                         val profile = profiles.first()
                         this.text_age_input.setText(profile.age.toString())
-                        this.text_weight_input.setText(viewModel.getProfileWeight(profile).toString())
-                        if(profile.isUnitInKg()) {
+                        this.text_weight_input.setText(
+                            viewModel.getProfileWeight(profile).toString()
+                        )
+                        if (profile.isUnitInKg()) {
                             lastSelected = 0
                             this.spinner_unit_input.setSelection(0)
                         } else {
@@ -54,20 +58,34 @@ class ProfileFragment : Fragment() {
                 }
             })
 
-            this.spinner_unit_input.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
+            this.spinner_unit_input.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
 
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    if(lastSelected != -1 && lastSelected != position) {
-                        if (lastSelected == 0) {
-                            input.setText(Profile.convertKgToPound(input.text.toString().toInt()).toString())
-                        } else {
-                            input.setText(Profile.convertPoundToKg(input.text.toString().toInt()).toString())
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        if (lastSelected != -1 && lastSelected != position) {
+                            if (lastSelected == 0) {
+                                input.setText(
+                                    Profile.convertKgToPound(
+                                        input.text.toString().toInt()
+                                    ).toString()
+                                )
+                            } else {
+                                input.setText(
+                                    Profile.convertPoundToKg(
+                                        input.text.toString().toInt()
+                                    ).toString()
+                                )
+                            }
                         }
                     }
                 }
-            }
 
             this.button_save.setOnClickListener {
                 val age = this.text_age_input.text.toString().toInt()
@@ -84,6 +102,11 @@ class ProfileFragment : Fragment() {
                 val fr = fragmentManager?.beginTransaction()
                 fr?.replace(R.id.nav_host_fragment, HomeFragment())
                 fr?.commit()
+            }
+
+            this.button_export.setOnClickListener {
+                val mainIntent = Intent(activity, ExportActivity::class.java)
+                this.startActivity(mainIntent)
             }
         }
     }

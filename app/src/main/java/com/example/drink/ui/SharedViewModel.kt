@@ -29,19 +29,19 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         profiles = profileRepository.all
     }
 
-    fun insert(drink : Drink) {
+    fun insert(drink: Drink) {
         viewModelScope.launch {
             drinkRepository.insert(drink)
         }
     }
 
-    fun delete(drink : Drink) {
+    fun delete(drink: Drink) {
         viewModelScope.launch {
             drinkRepository.delete(drink)
         }
     }
 
-    fun update(drink : Drink) {
+    fun update(drink: Drink) {
         viewModelScope.launch {
             drinkRepository.update(drink)
         }
@@ -53,7 +53,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getProfileWeight(profile : Profile) : Int {
+    fun getProfileWeight(profile: Profile): Int {
         val isUnitInKg = profile.isUnitInKg()
         return if (isUnitInKg) {
             profile.getKgWeight()
@@ -62,7 +62,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getStoreAmount(profile : Profile, amount : Int) : Int {
+    fun getStoreAmount(profile: Profile, amount: Int): Int {
         val isUnitInKg = profile.isUnitInKg()
         return if (isUnitInKg) {
             Drink.getStoreAmountByMl(amount)
@@ -71,7 +71,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getStoreWeight(isUnitInKg: Boolean, weight : Int) : Int {
+    fun getStoreWeight(isUnitInKg: Boolean, weight: Int): Int {
         return if (isUnitInKg) {
             Profile.getStoreWeightByKg(weight)
         } else {
@@ -79,21 +79,22 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getDailyAmountText(profile : Profile) : String {
+    fun getDailyAmountText(profile: Profile): String {
         return this.getDailyAmount(profile).toString() + this.getWaterPostfix(profile.isUnitInKg())
     }
 
-    fun getDailyGoalAmountText(profile : Profile) : String {
-        return this.getDailyGoalAmount(profile).toString() + this.getWaterPostfix(profile.isUnitInKg())
+    fun getDailyGoalAmountText(profile: Profile): String {
+        return this.getDailyGoalAmount(profile)
+            .toString() + this.getWaterPostfix(profile.isUnitInKg())
     }
 
-    fun getDailyLeftAmountText(profile: Profile) : String {
+    fun getDailyLeftAmountText(profile: Profile): String {
         var leftAmount = this.getDailyGoalAmount(profile) - this.getDailyAmount(profile)
         leftAmount = if (leftAmount >= 0) leftAmount else 0
         return leftAmount.toString() + this.getWaterPostfix(profile.isUnitInKg()) + " left"
     }
 
-    fun getTodayDrinks(drinks : List<Drink>) : List<Drink> {
+    fun getTodayDrinks(drinks: List<Drink>): List<Drink> {
         val date = Date()
         date.hours = 0
         date.minutes = 0
@@ -101,22 +102,22 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         return drinks.filter { it.date >= date.time }
     }
 
-    fun getProgress(profile: Profile) : Int {
+    fun getProgress(profile: Profile): Int {
         val dailyAmount = this.getDailyAmount(profile)
         val dailyGoalAmount = this.getDailyGoalAmount(profile)
         val result = (dailyGoalAmount - dailyAmount) * 1f / dailyGoalAmount
-        return if (result >= 0)  ((1 - result) * 100).roundToInt() else 100
+        return if (result >= 0) ((1 - result) * 100).roundToInt() else 100
     }
 
-    private fun getWeightPostfix(isUnitInKg : Boolean) : String {
+    private fun getWeightPostfix(isUnitInKg: Boolean): String {
         return if (isUnitInKg) " kg" else " pound"
     }
 
-    private fun getWaterPostfix(isUnitInMl : Boolean) : String {
+    private fun getWaterPostfix(isUnitInMl: Boolean): String {
         return if (isUnitInMl) " ml" else " oz"
     }
 
-    private fun getDailyAmount(profile : Profile) : Int {
+    private fun getDailyAmount(profile: Profile): Int {
         val filteredDrinks = this.getTodayDrinks(drinks.value!!)
         return if (profile.isUnitInKg()) {
             filteredDrinks.sumBy { it.getMlAmount() }
@@ -125,9 +126,9 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private fun getDailyGoalAmount(profile : Profile) : Int {
+    private fun getDailyGoalAmount(profile: Profile): Int {
         val weightDivider = 2.2f
-        val ageMultiplier = if (profile.age < 30) 40 else if(profile.age <= 55) 35 else 30
+        val ageMultiplier = if (profile.age < 30) 40 else if (profile.age <= 55) 35 else 30
         val goal = profile.getPoundWeight() / weightDivider * ageMultiplier / 28.3f
         return if (profile.isUnitInKg()) {
             (goal / 33.8f * 1000).toInt()
